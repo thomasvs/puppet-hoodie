@@ -1,0 +1,2 @@
+type=AVC msg=audit(1413224000.539:1805): avc:  denied  { name_bind } for  pid=27538 comm="beam" src=5986 scontext=system_u:system_r:rabbitmq_beam_t:s0 tcontext=system_u:object_r:vnc_port_t:s0 tclass=tcp_socket
+type=AVC msg=audit(1413233776.267:1933): avc:  denied  { name_bind } for  pid=17836 comm="beam" src=6986 scontext=system_u:system_r:rabbitmq_beam_t:s0 tcontext=system_u:object_r:unreserved_port_t:s0 tclass=tcp_socket
