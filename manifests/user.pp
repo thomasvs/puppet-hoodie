@@ -9,7 +9,8 @@ class hoodie::user {
 
   # apache needs to be able to 'execute' the directory
   file { '/home/hoodie':
-    ensure => directory,
-    mode   => '0711',
+    ensure  => directory,
+    mode    => '0711',
+    require => User['hoodie'],
   }
 }
