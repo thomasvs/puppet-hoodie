@@ -23,4 +23,14 @@ class hoodie::install {
     mode   => '0755',
   }
 
+  # on RHEL 5-6-7, sudoers defaults to requiretty, which stops hoodie-daemon.sh
+  file { "/etc/sudoers.d/hoodie":
+    ensure  => 'present',
+    content => template('hoodie/sudoers.erb'),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0440',
+  }
+
+
 }
