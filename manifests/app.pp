@@ -54,7 +54,7 @@ define hoodie::app (
   }
 
   # make sure apache is allowed access to files
-  selinux::filecontext { "${full_path}/app":
+  selinux::filecontext { "${full_path}/www":
     seltype => 'httpd_sys_content_t',
     recurse => true
   }
