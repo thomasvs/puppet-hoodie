@@ -6,4 +6,10 @@ class hoodie::user {
     managehome => true,
     comment    => "Hoodie Administrator",
   }
+
+  # apache needs to be able to 'execute' the directory
+  file { '/home/hoodie':
+    ensure => directory,
+    mode   => '0711',
+  }
 }
