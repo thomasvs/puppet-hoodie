@@ -64,4 +64,8 @@ define hoodie::app (
     ensure => file,
     content => template('hoodie/apache/container-hoodie.inc.erb'),
   }
+
+  $httpd_version = $apache_httpd::params::httpd_version
+
+  include apache_httpd::params
 }

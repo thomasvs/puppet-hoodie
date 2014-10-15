@@ -10,8 +10,12 @@ ProxyPassReverse <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %
 
 Alias <%= @url_prefix %>/ <%= @full_path %>
 <Directory <%= @full_path %>>
+<% if @httpd_version == '2.2' %->
   Order deny,allow
   Allow from all
+<% else %>
+  Require all granted
+<% end %>
 </Directory>
 
 ProxyPreserveHost On
