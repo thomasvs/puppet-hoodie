@@ -1,0 +1,18 @@
+# reverse proxy to hoodie app
+# retry=0 removes akward delay after restart of django application,
+# when apache returns 503 even though django is already running
+# the ! rule to let static through should go first
+# ProxyPass /partner-test/static !
+ProxyPass <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %> retry=0
+ProxyPassReverse <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %>/
+ProxyPass <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %> retry=0
+ProxyPassReverse <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %>/
+
+Alias <%= @url_prefix %>/ <%= @full_path %>
+<Directory <%= @full_path %>>
+  Order deny,allow
+  Allow from all
+</Directory>
+
+ProxyPreserveHost On
+# RequestHeader set X-Forwarded-Proto "https" env=HTTPS
