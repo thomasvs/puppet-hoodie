@@ -53,6 +53,12 @@ define hoodie::app (
     ],
   }
 
+  # make sure apache is allowed access to files
+  selinux::filecontext { "${full_path}/app":
+    seltype => 'httpd_sys_content_t',
+    recurse => true
+  }
+
   # deploy apache container
   apache_httpd::file { "container-hoodie-${name}.inc":
     ensure => file,
