@@ -40,7 +40,7 @@ define hoodie::app (
     cwd     => $full_path,
     creates => "${full_path}/run/hoodie.pid",
     environment => [
-      'HOODIE_APP_HOME=${full_path}',
+      "HOODIE_APP_HOME=${full_path}",
       "HOODIE_ADMIN_USER=${admin_user}",
       "HOODIE_ADMIN_PASS=${admin_password}",
       "HOODIE_PORT=5986",
@@ -49,6 +49,7 @@ define hoodie::app (
     ],
     require => [
       Exec["hoodie-npm-install-${name}"],
+      File["/home/hoodie/bin/hoodie-daemon.sh"],
     ],
   }
 
