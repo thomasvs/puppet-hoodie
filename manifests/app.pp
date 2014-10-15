@@ -6,9 +6,11 @@ define hoodie::app (
   $directory = "/home/hoodie/${name}"
 
   $checkoutdir = 'checkout'
-  $fullpath = "${directory}/${checkoutdir}"
+  $full_path = "${directory}/${checkoutdir}"
 
   $user = 'hoodie'
+  $url_prefix = ''
+  $hoodie_port = '6002'
 
   git::checkout { $name:
     directory   => $directory,
@@ -22,7 +24,7 @@ define hoodie::app (
     command => 'npm install',
     user    => $user,
     path    => '/usr/bin',
-    cwd     => $fullpath,
+    cwd     => $full_path,
     require => [
       Git::Checkout[$name],
     ]
@@ -35,10 +37,10 @@ define hoodie::app (
   exec { "hoodie-start-${name}":
     command => 'hoodie-daemon.sh start',
     path    => '/usr/bin:/home/hoodie/bin',
-    cwd     => $fullpath,
-    creates => "${fullpath}/run/hoodie.pid",
+    cwd     => $full_path,
+    creates => "${full_path}/run/hoodie.pid",
     environment => [
-      'HOODIE_APP_HOME=/home/hoodie/mushin/checkout',
+      'HOODIE_APP_HOME=${full_path}',
       "HOODIE_ADMIN_USER=${admin_user}",
       "HOODIE_ADMIN_PASS=${admin_password}",
       "HOODIE_PORT=5986",
@@ -50,4 +52,9 @@ define hoodie::app (
     ],
   }
 
+  # deploy apache container
+  apache_httpd::file { "container-hoodie-${name}.inc":
+    ensure => file,
+    content => template('hoodie/apache/container-hoodie.inc.erb'),
+  }
 }
