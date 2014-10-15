@@ -13,6 +13,9 @@ class hoodie::install {
 
   } 
 
+  # this flag virtual resource needs to be included previously
+  realize(Selinux::Flag['httpd_enable_homedirs-1'])
+
   file { '/home/hoodie/bin':
     ensure => directory,
   }
