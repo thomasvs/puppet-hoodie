@@ -1,21 +1,22 @@
 # reverse proxy to hoodie app
-# retry=0 removes akward delay after restart of django application,
-# when apache returns 503 even though django is already running
-# the ! rule to let static through should go first
-# ProxyPass /partner-test/static !
-ProxyPass <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %> retry=0
-ProxyPassReverse <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %>/
-ProxyPass <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %> retry=0
-ProxyPassReverse <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %>/
+#
+# retry=0 removes akward delay after restart of the application,
+# when apache returns 503 even though the application is already running
 
-Alias <%= @url_prefix %>/ <%= @full_path %>
-<Directory <%= @full_path %>>
-<% if @httpd_version == '2.2' %->
+ProxyPass <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %>/_api retry=0
+ProxyPassReverse <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %>/_api
+
+ProxyPass <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %>/_changes retry=0
+ProxyPassReverse <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %>/_changes
+
+Alias <%= @url_prefix %>/ <%= @full_path %>/www/
+<Directory <%= @full_path %>/www>
+<% if @httpd_version == '2.2' -%>
   Order deny,allow
   Allow from all
-<% else %>
+<% else -%>
   Require all granted
-<% end %>
+<% end -%>
 </Directory>
 
 ProxyPreserveHost On
