@@ -3,10 +3,17 @@
 # retry=0 removes akward delay after restart of the application,
 # when apache returns 503 even though the application is already running
 
-ProxyPass <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %>/_api retry=0
+# see http://stackoverflow.com/questions/4390436/need-to-allow-encoded-slashes-on-apache for how to handle encoded paths
+
+# without this, requests like
+# # curl -k https://mushin.twovaryingshoes.com/_api/_users/org.couchdb.user%3Auser%2Fthomas%40apestaart.org
+# # don't even hit couchdb
+AllowEncodedSlashes NoDecode
+
+ProxyPass <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %>/_api retry=0 nocanon
 ProxyPassReverse <%= @url_prefix %>/_api http://localhost:<%= @hoodie_port %>/_api
 
-ProxyPass <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %>/_changes retry=0
+ProxyPass <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %>/_changes retry=0 nocanon
 ProxyPassReverse <%= @url_prefix %>/_changes http://localhost:<%= @hoodie_port %>/_changes
 
 Alias <%= @url_prefix %>/ <%= @full_path %>/www/
