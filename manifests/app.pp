@@ -21,12 +21,25 @@ define hoodie::app (
   }
 
   exec { "hoodie-npm-install-${name}":
-    command => 'npm install',
+    command => 'true || npm install',
     user    => $user,
     path    => '/usr/bin',
     cwd     => $full_path,
+    refreshonly => true,
     require => [
       Git::Checkout[$name],
+    ]
+  }
+
+  exec { "hoodie-grunt-build-${name}":
+    command     => 'grunt build',
+    user        => $user,
+    path        => "/usr/bin:${full_path}/node_modules/.bin",
+    cwd         => $full_path,
+    refreshonly => true,
+    require     => [
+      Git::Checkout[$name],
+      Exec["hoodie-npm-install-${name}"],
     ]
   }
 
@@ -68,4 +81,16 @@ define hoodie::app (
   $httpd_version = $apache_httpd::params::httpd_version
 
   include apache_httpd::params
+
+  # run commands on updated checkouts on second run
+  file {"${directory}/commit":
+    notify => [
+      Exec["hoodie-npm-install-${name}"],
+      Exec["hoodie-grunt-build-${name}"],
+    ],
+    # audit makes puppet track the md5sum and hence it can
+    # act on changes over runs
+    audit => content,
+  }
+
 }
