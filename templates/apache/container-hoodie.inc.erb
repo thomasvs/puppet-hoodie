@@ -24,6 +24,12 @@ Alias <%= @url_prefix %>/ <%= @full_path %>/www/
 <% else -%>
   Require all granted
 <% end -%>
+
+  <Files *.appcache>
+    ExpiresActive On
+    ExpiresDefault "access"
+  </Files>
+
 </Directory>
 
 ProxyPreserveHost On
