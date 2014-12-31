@@ -21,7 +21,7 @@ define hoodie::app (
   }
 
   exec { "hoodie-npm-install-${name}":
-    command => 'true || npm install',
+    command => 'npm install',
     user    => $user,
     path    => '/usr/bin',
     cwd     => $full_path,
