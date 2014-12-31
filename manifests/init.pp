@@ -5,11 +5,11 @@ class hoodie (
   include hoodie::install
 
   couchdb { 'couchdb-hoodie':
-    port     => 5986,
-    ssl_port => 6986,
-    ssl_key_file => '/etc/couchdb-hoodie/localhost.localdomain.key',
+    port          => 5986,
+    ssl_port      => 6986,
+    ssl_key_file  => '/etc/couchdb-hoodie/localhost.localdomain.key',
     ssl_cert_file => '/etc/couchdb-hoodie/localhost.localdomain.crt',
-    admins   => $admins,
+    admins        => $admins,
   }
 
   file { '/etc/couchdb-hoodie/localhost.localdomain.crt':
