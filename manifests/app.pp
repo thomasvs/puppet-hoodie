@@ -21,7 +21,9 @@ define hoodie::app (
   }
 
   exec { "hoodie-npm-install-${name}":
-    command => 'npm install',
+    # FIXME: if you change the hoodie-server dep, npm install without
+    #        args doesn't necessarily update that
+    command => 'npm install && npm install hoodie-server',
     user    => $user,
     path    => '/usr/bin',
     cwd     => $full_path,
