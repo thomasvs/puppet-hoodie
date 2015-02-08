@@ -33,6 +33,21 @@ define hoodie::app (
     ]
   }
 
+  exec { "hoodie-bower-install-${name}":
+    # See https://github.com/bower/bower/issues/1102
+    # for the option to skip the question to report statistics
+    command => "bower install --config.interactive=false",
+    user    => $user,
+    path    => "/usr/bin:${full_path}/node_modules/.bin",
+    cwd     => $full_path,
+    refreshonly => true,
+    require => [
+      Git::Checkout[$name],
+      Exec["hoodie-npm-install-${name}"],
+    ]
+  }
+
+
   exec { "hoodie-grunt-build-${name}":
     command     => 'grunt build',
     user        => $user,
@@ -42,6 +57,7 @@ define hoodie::app (
     require     => [
       Git::Checkout[$name],
       Exec["hoodie-npm-install-${name}"],
+      Exec["hoodie-bower-install-${name}"],
     ]
   }
 
