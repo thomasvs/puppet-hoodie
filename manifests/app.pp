@@ -104,6 +104,7 @@ define hoodie::app (
   file {"${directory}/commit":
     notify => [
       Exec["hoodie-npm-install-${name}"],
+      Exec["hoodie-bower-install-${name}"],
       Exec["hoodie-grunt-build-${name}"],
     ],
     # audit makes puppet track the md5sum and hence it can
