@@ -5,3 +5,4 @@ type=AVC msg=audit(1413233776.267:1933): avc:  denied  { name_bind } for  pid=17
 type=AVC msg=audit(1413390164.648:4064): avc:  denied  { name_connect } for  pid=11893 comm="httpd" dest=6002 scontext=system_u:system_r:httpd_t:s0 tcontext=system_u:object_r:xserver_port_t:s0 tclass=tcp_socket
 type=AVC msg=audit(1414372502.590:22587): avc:  denied  { create } for  pid=21651 comm="beam.smp" name="user" scontext=system_u:system_r:rabbitmq_beam_t:s0 tcontext=system_u:object_r:couchdb_var_lib_t:s0 tclass=dir
 type=AVC msg=audit(1415577667.620:107386): avc:  denied  { execmem } for  pid=26502 comm="couchjs" scontext=system_u:system_r:rabbitmq_beam_t:s0 tcontext=system_u:system_r:rabbitmq_beam_t:s0 tclass=process
+type=AVC msg=audit(1460866551.242:971): avc:  denied  { open } for  pid=20542 comm="beam" path="/var/log/couchdb-hoodie/couch.log" dev="dm-1" ino=9825924 scontext=system_u:system_r:couchdb_t:s0 tcontext=system_u:object_r:var_log_t:s0 tclass=file
