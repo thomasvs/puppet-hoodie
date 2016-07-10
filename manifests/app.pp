@@ -12,7 +12,7 @@ define hoodie::app (
   $url_prefix = ''
   $hoodie_port = '6002'
 
-  git::checkout { $name:
+  tgit::checkout { $name:
     directory   => $directory,
     checkoutdir => $checkoutdir,
     repository  => $gitrepo,
@@ -29,7 +29,7 @@ define hoodie::app (
     cwd     => $full_path,
     refreshonly => true,
     require => [
-      Git::Checkout[$name],
+      Tgit::Checkout[$name],
     ]
   }
 
@@ -42,7 +42,7 @@ define hoodie::app (
     cwd     => $full_path,
     refreshonly => true,
     require => [
-      Git::Checkout[$name],
+      Tgit::Checkout[$name],
       Exec["hoodie-npm-install-${name}"],
     ]
   }
@@ -55,7 +55,7 @@ define hoodie::app (
     cwd         => $full_path,
     refreshonly => true,
     require     => [
-      Git::Checkout[$name],
+      Tgit::Checkout[$name],
       Exec["hoodie-npm-install-${name}"],
       Exec["hoodie-bower-install-${name}"],
     ]
