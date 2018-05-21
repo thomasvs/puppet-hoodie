@@ -3,6 +3,8 @@ define hoodie::app (
   $commit=undef
 ) {
 
+  include apache_httpd::params
+
   $directory = "/home/hoodie/${name}"
 
   $checkoutdir = 'checkout'
